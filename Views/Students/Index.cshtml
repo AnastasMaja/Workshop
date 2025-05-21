@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Workshop.Models.Student>
+
+@{
+    ViewData["Title"] = "Студенти";
+}
+
+<h1>Студенти</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Додај нов студент</a>
+</p>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label>Индекс:</label>
+            <input type="text" name="searchIndex" class="form-control"
+                   value="@ViewData["CurrentIndex"]" placeholder="Внесете индекс" />
+        </div>
+        <div class="form-group col-md-2">
+            <label>Име/Презиме:</label>
+            <input type="text" name="searchName" class="form-control"
+                   value="@ViewData["CurrentName"]" placeholder="Внесете име или презиме" />
+        </div>
+        <div class="form-group col-md-2">
+            <label>Семестар:</label>
+            <input type="number" name="searchSemester" class="form-control"
+                   value="@ViewData["CurrentSemester"]" placeholder="Семестар" min="1" />
+        </div>
+        <div class="form-group col-md-2">
+            <label>Датум на запишување:</label>
+            <input type="date" name="searchEnrollmentDate" class="form-control"
+                   value="@ViewData["CurrentEnrollmentDate"]" />
+        </div>
+        <div class="form-group col-md-2">
+            <label>Степен на образование:</label>
+            <select name="searchEducationLevel" class="form-control">
+                <option value="">Сите</option>
+                <option value="Додипломски"
+                        selected='@(ViewData["CurrentEducationLevel"]?.ToString() == "Додипломски")'>
+                    Додипломски
+                </option>
+                <option value="Магистерски"
+                        selected='@(ViewData["CurrentEducationLevel"]?.ToString() == "Магистерски")'>
+                    Магистерски
+                </option>
+                <option value="Докторски"
+                        selected='@(ViewData["CurrentEducationLevel"]?.ToString() == "Докторски")'>
+                    Докторски
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-md-2 align-self-end">
+            <button type="submit" class="btn btn-primary">Филтрирај</button>
+            <a asp-action="Index" class="btn btn-secondary">Ресетирај</a>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Индекс</th>
+            <th>Име</th>
+            <th>Презиме</th>
+            <th>Датум на запишување</th>
+            <th>Освоени кредити</th>
+            <th>Семестар</th>
+            <th>Степен на образование</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.StudentId</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.EnrollmentDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.AcquiredCredits</td>
+                <td>@item.CurrentSemestar</td>
+                <td>@item.EducationLevel</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Уреди</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Избриши</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

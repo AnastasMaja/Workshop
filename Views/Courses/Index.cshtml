@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Workshop.Models.Course>
+
+@{
+    ViewData["Title"] = "Предмети";
+}
+
+<h1>Предмети</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Додај нов предмет</a>
+</p>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label>Наслов:</label>
+            <input type="text" name="searchTitle" class="form-control" value="@ViewData["CurrentFilterTitle"]" placeholder="Внесете наслов" />
+        </div>
+        <div class="form-group col-md-2">
+            <label>Семестар:</label>
+            <input type="number" name="searchSemester" class="form-control" value="@ViewData["CurrentFilterSemester"]" placeholder="Семестар" min="1" />
+        </div>
+        <div class="form-group col-md-3">
+            <label>Програма:</label>
+            <input type="text" name="searchProgramme" class="form-control" value="@ViewData["CurrentFilterProgramme"]" placeholder="Внесете програма" />
+        </div>
+        <div class="form-group col-md-2">
+            <label>Степен на образование:</label>
+            <input type="text" name="searchEducationLevel" class="form-control" value="@ViewData["CurrentFilterEducationLevel"]" placeholder="Степен" />
+        </div>
+        <div class="form-group col-md-2 align-self-end">
+            <button type="submit" class="btn btn-primary">Филтрирај</button>
+            <a asp-action="Index" class="btn btn-secondary">Ресетирај</a>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Наслов</th>
+            <th>Кредити</th>
+            <th>Семестар</th>
+            <th>Програма</th>
+            <th>Степен</th>
+            <th>Прв наставник</th>
+            <th>Втор наставник</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Credits</td>
+                <td>@item.Semester</td>
+                <td>@item.Programme</td>
+                <td>@item.EducationLevel</td>
+                <td>@item.FirstTeacher?.FullName</td>
+                <td>@item.SecondTeacher?.FullName</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Уреди</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Избриши</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
